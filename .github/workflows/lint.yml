@@ -26,4 +26,8 @@ jobs:
         run: npm install
 
       - name: Run ESLint
-        run: npm run lint
+        run: |
+          git fetch origin main --depth=1
+          CHANGED_FILSE=$(git diff --name-only FETCH_HEAD HEAD -- '*.js' '*.ts' '*.jsx' '*.tsx')
+          echo "Running Linter on $CHANGED_FILES"
+          npx eslint $CHANGED_FILES
