@@ -28,6 +28,6 @@ jobs:
       - name: Run ESLint
         run: |
           git fetch origin main --depth=1
-          CHANGED_FILSE=$(git diff --name-only FETCH_HEAD HEAD -- '*.js' '*.ts' '*.jsx' '*.tsx')
+          CHANGED_FILES=$(git diff --name-only FETCH_HEAD HEAD -- '*.js' '*.ts' '*.jsx' '*.tsx')
           echo "Running Linter on $CHANGED_FILES"
           npx eslint $CHANGED_FILES
