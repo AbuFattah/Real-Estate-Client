@@ -5,7 +5,7 @@ name: Lint Node.js App
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev, 'feature/*']
   pull_request:
     branches: [main]
 
