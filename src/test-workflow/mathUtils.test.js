@@ -25,12 +25,8 @@ describe("mathUtils", () => {
     expect(divide(-6, 3)).toBe(-2);
   });
 
-  it("should divide two numbers correctly", () => {
-    expect(divide(4, 2)).toBe(2);
-    expect(divide(-6, 3)).toBe(-2);
-  });
-
   it("should throw an error when dividing by zero", () => {
     expect(() => divide(6, 0)).toThrow("Cannot divide by zero");
   });
 });
+
