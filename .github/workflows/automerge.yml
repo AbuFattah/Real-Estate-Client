@@ -1,0 +1,42 @@
+name: CI and Auto Merge to Dev
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['feature/*']
+  pull_request:
+    branches: [dev]
+
+jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    uses: ./.github/workflows/test.yml
+
+  merge_to_dev:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'dev') ||
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature/'))
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+      - name: Merge changes
+        run: |
+          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
+            git checkout dev
+            git merge --no-ff ${{ github.event.pull_request.head.sha }} -m "Merge pull request #${{ github.event.pull_request.number }} from ${{ github.event.pull_request.head.ref }}"
+          else
+            git checkout dev
+            git merge --no-ff ${{ github.sha }} -m "Merge feature branch '${GITHUB_REF#refs/heads/}' into dev"
+          fi
+      - name: Push changes
+        run: git push origin dev
