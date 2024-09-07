@@ -1,0 +1,45 @@
+name: Auto Merge to Dev
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Lint Node.js App", "Run unit tests"]  # Triggers after both workflows complete
+    types:
+      - completed
+
+jobs:
+  merge_to_dev:
+    name: Merge Feature Branch to Dev
+    runs-on: ubuntu-latest
+    # Ensures both workflows are successful
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Fetch dev branch
+        run: git fetch origin dev
+
+      - name: Checkout dev branch
+        run: git checkout dev
+
+      - name: Merge --rebase feature branch into dev
+        run: |
+          if ! git merge --rebase ${{ github.ref }}; then
+            echo "Rebase conflict detected. Please resolve conflicts manually."
+            exit 1
+          fi
+
+      - name: Push rebased changes to dev branch
+        run: git push origin dev
+
+      - name: Notify on failed rebase
+        if: failure()
+        run: echo "Failed to rebase and merge feature branch into dev. Please check the repository for conflicts."
