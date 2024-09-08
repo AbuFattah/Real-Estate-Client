@@ -8,11 +8,13 @@ describe("mathUtils", () => {
   it("should add two numbers correctly", () => {
     expect(add(2, 3)).toBe(5);
     expect(add(-2, 3)).toBe(1);
+    expect(add(-2, 3)).toBe(1);
   });
 
   it("should subtract two numbers correctly", () => {
     expect(subtract(5, 3)).toBe(2);
     expect(subtract(3, 5)).toBe(-2);
+    expect(subtract(3, 6)).toBe(-3);
   });
 
   it("should multiply two numbers correctly", () => {
