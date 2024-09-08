@@ -13,6 +13,7 @@ describe("mathUtils", () => {
   it("should subtract two numbers correctly", () => {
     expect(subtract(5, 3)).toBe(2);
     expect(subtract(3, 5)).toBe(-2);
+    expect(subtract(3, 6)).toBe(-3);
   });
 
   it("should multiply two numbers correctly", () => {
