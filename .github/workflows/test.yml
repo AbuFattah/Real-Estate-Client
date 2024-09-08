@@ -1,6 +1,7 @@
-name: Run unit tests
+name: Test
 
 on:
+  workflow_call:
   workflow_dispatch:
   push:
     branches: [ main, dev, 'feature/*' ]
@@ -8,7 +9,7 @@ on:
     branches: [dev]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
