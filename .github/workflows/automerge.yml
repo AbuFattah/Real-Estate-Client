@@ -11,8 +11,6 @@ jobs:
 
   test:
     uses: ./.github/workflows/test_and_code_quality.yml
-    with:
-      jobs: test
 
   merge_to_dev:
     needs: [lint, test]
