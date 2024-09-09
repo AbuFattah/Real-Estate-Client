@@ -1,13 +1,14 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Lint Node.js App 
+name: Lint
 
 on:
+  workflow_call:
   push:
-    branches: [main]
+    branches: [main, dev, 'feature/*']
   pull_request:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
   lint:
@@ -15,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 
         with:
           fetch-depth: 0  # Fetch all history for all branches and tags
 

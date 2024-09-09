@@ -1,5 +1,6 @@
-import { useState } from "react";
-import "./searchBar.scss";
+
+// eslint-disable-next-line no-unused-vars
+import React, { useState } from "react";import "./searchBar.scss";
 import { Link } from "react-router-dom";
 
 const types = ["buy", "rent"];
